@@ -14,7 +14,7 @@ export default class OtherPlayer extends Component {
 		let currentArray = current.split(" ");
 		let amount = 5;
 		current = currentArray
-			.slice(currentArray.length - amount, currentArray.length)
+			.slice(-amount)
 			.join(" ");
 		return (
 			<div>

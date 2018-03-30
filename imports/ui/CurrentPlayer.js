@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 
+import { Meteor } from "meteor/meteor";
+
 import ShownText from "./ShownText.js";
 
 export default class CurrentPlayer extends Component {
@@ -10,6 +12,11 @@ export default class CurrentPlayer extends Component {
 	}
 
 	initialState() {
+		let gameId = this.props.gameId;
+		let initialCurrent = "";
+		let initialWpm = 0;
+		Meteor.call("games.setCurrent", gameId, initialCurrent);
+		Meteor.call("games.setWpm", gameId, initialWpm);
 		return {
 			index: 0,
 			wordIndex: 0,
@@ -20,6 +27,26 @@ export default class CurrentPlayer extends Component {
 		};
 	}
 
+	updateWpm() {
+		let gameId = this.props.gameId;
+		let timeElapsed = this.props.timeElapsed;
+
+		let wordIndex = this.state.wordIndex;
+		let counter = this.state.counter;
+
+		let totalWords = wordIndex + counter;
+		let wpm = timeElapsed !== 0 ? 
+			(totalWords / timeElapsed) * 60
+			: 0;
+		wpm = Math.round(wpm);
+		Meteor.call("games.setWpm", gameId, wpm);
+	}
+
+	addChar(char) {
+		let gameId = this.props.gameId;
+		Meteor.call("games.addChar", gameId, char);
+	}
+
 	handleChange(e) {
 		let index = this.state.index;
 		let inputText = e.target.value;
@@ -28,6 +55,7 @@ export default class CurrentPlayer extends Component {
 			(inputChar !== " " || inputText !== " ")
 			&& inputChar === this.props.text[index]
 		) {
+			this.addChar(inputChar);
 			this.setState(state => {
 				index = state.index;
 				let shownIndex = state.shownIndex;
@@ -45,6 +73,7 @@ export default class CurrentPlayer extends Component {
 						shownIndex = 0;
 					}
 				}
+				this.updateWpm();
 				return {
 					value: inputText,
 					shownIndex,
@@ -72,7 +101,6 @@ export default class CurrentPlayer extends Component {
 		let shownIndex = this.state.shownIndex;
 		let wordIndex = this.state.wordIndex;
 		let amount = this.state.amount;
-		let counter = this.state.counter;
 
 		let textArray = this.props.text
 			.split(" ");
@@ -85,11 +113,7 @@ export default class CurrentPlayer extends Component {
 
 		let position = this.props.position;
 		let timeElapsed = this.props.timeElapsed;
-		let totalWords = wordIndex + counter;
-		let wpm = timeElapsed !== 0 ? 
-			(totalWords / timeElapsed) * 60
-			: 0;
-		wpm = Math.round(wpm);
+		let wpm = this.props.wpm;
 		return (
 			<div>
 				<div>{position} ({wpm} wpm)</div>

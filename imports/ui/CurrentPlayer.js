@@ -112,24 +112,46 @@ export default class CurrentPlayer extends Component {
 			.join(" ");
 
 		let position = this.props.position;
+		let termination;
+		switch(position) {
+		case 1:
+			termination = "st";
+			break;
+		case 2:
+			termination = "nd";
+			break;
+		case 3:
+			termination = "rd";
+			break;
+		default:
+			termination = "th";
+		}
 		let timeElapsed = this.props.timeElapsed;
 		let wpm = this.props.wpm;
 		return (
-			<div>
-				<div>{position} ({wpm} wpm)</div>
-				{
-					timeElapsed !== 60 &&
-						<div>
-							<ShownText
-								text={shownText}
-								index={shownIndex} />
-							<div>{nextText}</div>
-						</div>
-				}
-				<input
-					type="text"
-					value={this.state.value}
-					onChange={this.handleChange} />
+			<div className="row">
+				<div className="col-sm-2 text-center">
+					<div><span id="current-position">{position}</span>{termination}</div>
+				</div>
+				<div className="col-sm-8 text-center">
+					{
+						timeElapsed !== 60 &&
+							<div id="my-text">
+								<ShownText
+									text={shownText}
+									index={shownIndex} />
+								<div>{nextText}</div>
+							</div>
+					}
+					<input
+						id="my-input"
+						type="text"
+						value={this.state.value}
+						onChange={this.handleChange} />
+				</div>
+				<div className="col-sm-2">
+					<div><span id="current-wpm-number">{wpm}</span>wpm</div>
+				</div>
 			</div>
 		);
 	}

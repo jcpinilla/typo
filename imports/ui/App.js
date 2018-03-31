@@ -12,7 +12,7 @@ class App extends Component {
 		let user = this.props.currentUser;
 		return (
 			<Router>
-				<div>
+				<div className="container">
 					<Navbar />
 					{user &&
 						<Switch>

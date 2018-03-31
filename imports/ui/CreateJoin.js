@@ -1,22 +1,26 @@
 import React, { Component } from "react";
 import { Meteor } from "meteor/meteor";
-
 import { Redirect } from "react-router-dom";
+
+import Create from "./Create.js";
+import Join from "./Join.js";
 
 export default class CreateJoin extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			gameId: null,
-			value: ""
+			gameIdJoin: "",
+			language: "es"
 		};
 		this.handleCreate = this.handleCreate.bind(this);
-		this.handleChange = this.handleChange.bind(this);
+		this.handleGameIdJoinChange = this.handleGameIdJoinChange.bind(this);
+		this.handleLanguageChange = this.handleLanguageChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
 	handleCreate() {
-		let language = "es";
+		let language = this.state.language;
 		Meteor.call("games.create",
 			language, 
 			(err, res) => {
@@ -27,22 +31,29 @@ export default class CreateJoin extends Component {
 			});
 	}
 
-	handleChange(e) {
-		let value = e.target.value;
+	handleGameIdJoinChange(e) {
+		let gameIdJoin = e.target.value;
 		this.setState({
-			value
+			gameIdJoin
+		});
+	}
+
+	handleLanguageChange(e) {
+		let language = e.target.value;
+		this.setState({
+			language
 		});
 	}
 
 	handleSubmit(e) {
-		let gameId = this.state.value;
+		let gameId = this.state.gameIdJoin;
 		Meteor.call("games.join", gameId, (err, res) => {
 			if (res) {
 				this.setState({
 					gameId
 				});
 			} else {
-				alert(`The game with id ${gameId} doesn't exist.`);
+				alert(`The game with ID ${gameId} doesn't exist.`);
 			}
 		});
 		e.preventDefault();
@@ -50,24 +61,19 @@ export default class CreateJoin extends Component {
 
 	render() {
 		let gameId = this.state.gameId;
+		if (gameId) {
+			return <Redirect to={`/${gameId}`} />;
+		}
 		return (
-			<div>
-				{gameId ?
-					<Redirect to={`/${gameId}`} /> :
-					<div>
-						<button onClick={this.handleCreate}>Create</button>
-						<br />
-						<form onSubmit={this.handleSubmit}>
-							<label>
-								Join:{" "}
-								<input
-									type="text"
-									value={this.state.value}
-									onChange={this.handleChange} />
-							</label>
-						</form>
-					</div>
-				}
+			<div id="create-join" className="row">						
+				<Create
+					language={this.state.language}
+					handleLanguageChange={this.handleLanguageChange}
+					handleCreate={this.handleCreate} />
+				<Join
+					handleSubmit={this.handleSubmit}
+					gameIdJoin={this.state.gameIdJoin}
+					handleGameIdJoinChange={this.handleGameIdJoinChange} />
 			</div>
 		);
 	}

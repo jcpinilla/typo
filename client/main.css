@@ -1,7 +1,93 @@
 .done-char {
 	color: DarkSeaGreen;
 }
-
 .current-char {
 	background-color: Aquamarine;
+}
+
+#current-game {
+	margin-top: 20px;
+}
+
+#create-join {
+	text-align: center;
+}
+#create-join h1 {
+	margin-top: 90px;
+	margin-bottom: 30px;
+}
+
+#time-remaining {
+	font-size: 350%;
+}
+
+#accounts-wrapper {
+	margin-top: 25px;
+	font-size: 250%
+}
+
+.simulated-padding {
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-right: 40px;
+}
+
+.is-first,
+.is-last {
+	margin-top: 15px;
+	font-size: 200%;
+	text-align: center;
+}
+
+.is-first {
+	color: green;
+}
+
+.is-last {
+	color: red;
+}
+
+#timer {
+	text-align: center;
+	height: 80px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+#create-game {
+	margin-top: 30px;
+}
+
+#current-position, #current-wpm-number {
+	font-size: 500%;
+}
+
+#other-position, #other-wpm-number {
+	font-size: 300%;
+}
+
+#other-username {
+	font-size: 300%;
+}
+
+#other-current {
+	margin-top: 25px;
+	font-size: 110%;
+}
+
+#my-text {
+	margin-top: 10px;
+}
+
+#my-input {
+	margin-top: 20px
+}
+
+.card-header,
+.card-footer {
+	height: 100px;
+}
+
+.card-body {
+	height: 150px;
 }

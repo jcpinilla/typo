@@ -4,21 +4,50 @@ export default class OtherPlayer extends Component {
 	render() {
 		let player = this.props.player;
 		if (player === undefined) {
-			return null;
+			if (this.props.isFirst) {
+				return <div className="is-first">You're the <strong>fastest</strong>!</div>;
+			} else {
+				return <div className="is-last">You're the <strong>slowest</strong> :(</div>;
+			}
 		}
 		let position = this.props.position;
+		let termination;
+		switch(position) {
+		case 1:
+			termination = "st";
+			break;
+		case 2:
+			termination = "nd";
+			break;
+		case 3:
+			termination = "rd";
+			break;
+		default:
+			termination = "th";
+		}
 		let username = player.username;
 		let wpm = player.wpm;
 		let current = player.current;
 
 		let currentArray = current.split(" ");
-		let amount = 5;
+		let amount = 6;
 		current = currentArray
 			.slice(-amount)
 			.join(" ");
 		return (
-			<div>
-				{position} - {username} ({wpm} wpm): {current}
+			<div className="row">
+				<div className="col-sm-2 text-center">
+					<div><span id="other-position">{position}</span>{termination}</div>
+				</div>
+				<div className="col-sm-2 text-center">
+					<div id="other-username">{username}</div>
+				</div>
+				<div className="col-sm-6">
+					<div id="other-current">{current}</div>
+				</div>
+				<div className="col-sm-2">
+					<div><span id="other-wpm-number">{wpm}</span> wpm</div>
+				</div>
 			</div>
 		);
 	}

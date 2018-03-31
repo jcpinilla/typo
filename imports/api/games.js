@@ -15,6 +15,7 @@ Meteor.methods({
 		let numberOfWords = 200;
 		let host = Meteor.user().username;
 		let text = generateWords(language, numberOfWords);
+		let prepareTime = 0;
 		let timeRemaining = 0;
 		let players = [{
 			username: host,
@@ -25,6 +26,7 @@ Meteor.methods({
 			_id: gameId,
 			host,
 			text,
+			prepareTime,
 			timeRemaining,
 			players
 		});
@@ -63,6 +65,13 @@ Meteor.methods({
 		}
 
 		Games.update(gameId, {$set: {timeRemaining}});
+	},
+	"games.setPrepareTime"(gameId, prepareTime) {
+		if (!this.userId) {
+			throw new Meteor.Error("not-authorized");
+		}
+
+		Games.update(gameId, {$set: {prepareTime}});
 	},
 	"games.addChar"(gameId, char) {
 		if (!this.userId) {

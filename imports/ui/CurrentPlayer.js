@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-
 import { Meteor } from "meteor/meteor";
+import classnames from "classnames";
 
 import ShownText from "./ShownText.js";
 
@@ -21,14 +21,13 @@ export default class CurrentPlayer extends Component {
 			index: 0,
 			wordIndex: 0,
 			shownIndex: 0,
-			amount: 10,
+			amount: 7,
 			counter: 0,
 			value: ""
 		};
 	}
 
-	updateWpm() {
-		let gameId = this.props.gameId;
+	calculateWpm() {
 		let timeElapsed = this.props.timeElapsed;
 
 		let wordIndex = this.state.wordIndex;
@@ -39,6 +38,21 @@ export default class CurrentPlayer extends Component {
 			(totalWords / timeElapsed) * 60
 			: 0;
 		wpm = Math.round(wpm);
+		return wpm;
+	}
+
+	attemptMaxWpm() {
+		let wpm = this.calculateWpm();
+		Meteor.call("players.attemptMaxWpm", wpm, (err, res) => {
+			if (res) {
+				this.props.showSuccess();
+			}
+		});
+	}
+
+	updateWpm() {
+		let gameId = this.props.gameId;
+		let wpm = this.calculateWpm();
 		Meteor.call("games.setWpm", gameId, wpm);
 	}
 
@@ -73,7 +87,6 @@ export default class CurrentPlayer extends Component {
 						shownIndex = 0;
 					}
 				}
-				this.updateWpm();
 				return {
 					value: inputText,
 					shownIndex,
@@ -92,7 +105,10 @@ export default class CurrentPlayer extends Component {
 			if (timeElapsed === 0) {
 				this.setState(this.initialState());
 			} else if (timeElapsed === 60) {
+				this.attemptMaxWpm();
 				this.setState({value: ""});
+			} else {
+				this.updateWpm();
 			}
 		}
 	}
@@ -128,6 +144,10 @@ export default class CurrentPlayer extends Component {
 		}
 		let timeElapsed = this.props.timeElapsed;
 		let wpm = this.props.wpm;
+		let inputClassName = classnames({
+			"input-waiting": timeElapsed === 60,
+			"input-playing": timeElapsed !== 60
+		});
 		return (
 			<div className="row">
 				<div className="col-sm-2 text-center">
@@ -144,13 +164,15 @@ export default class CurrentPlayer extends Component {
 							</div>
 					}
 					<input
-						id="my-input"
+						className={inputClassName}
+						autoFocus
 						type="text"
 						value={this.state.value}
 						onChange={this.handleChange} />
 				</div>
-				<div className="col-sm-2">
-					<div><span id="current-wpm-number">{wpm}</span>wpm</div>
+				<div className="col-sm-2 text-center">
+					<div id="current-wpm-number">{wpm}</div>
+					<div>wpm</div>
 				</div>
 			</div>
 		);

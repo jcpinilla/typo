@@ -17,6 +17,8 @@ export default class Timer extends Component {
 						<h3>Waiting for {isHost?"you":"host"} to start the game...</h3>
 						{isHost &&
 							<button
+								type="button"
+								className="btn btn-primary"
 								onClick={this.props.prepareGame}
 								disabled={timeRemaining !== 0}>
 								<i className="fa fa-play"></i>

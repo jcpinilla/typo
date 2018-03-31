@@ -45,8 +45,9 @@ export default class OtherPlayer extends Component {
 				<div className="col-sm-6">
 					<div id="other-current">{current}</div>
 				</div>
-				<div className="col-sm-2">
-					<div><span id="other-wpm-number">{wpm}</span> wpm</div>
+				<div className="col-sm-2 text-center">
+					<div id="other-wpm-number">{wpm}</div>
+					<div>wpm</div>
 				</div>
 			</div>
 		);

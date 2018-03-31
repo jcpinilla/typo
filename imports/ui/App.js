@@ -5,15 +5,15 @@ import { withTracker } from "meteor/react-meteor-data";
 
 import CurrentGame from "./CurrentGame.js";
 import CreateJoin from "./CreateJoin.js";
-import Navbar from "./Navbar.js";
+import Header from "./Header.js";
 
 class App extends Component {
 	render() {
 		let user = this.props.currentUser;
 		return (
 			<Router>
-				<div className="container">
-					<Navbar />
+				<div className="container-fluid">
+					<Header />
 					{user &&
 						<Switch>
 							<Route exact path="/" component={CreateJoin} />
@@ -27,6 +27,10 @@ class App extends Component {
 }
 
 export default withTracker(() => {
+	let currentUser = Meteor.user();
+	if (currentUser !== null) {
+		Meteor.call("players.tryCreateProfile");
+	}
 	return {
 		currentUser: Meteor.user()
 	};

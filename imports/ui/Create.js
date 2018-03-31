@@ -17,6 +17,8 @@ export default class Create extends Component {
 				<br />
 				<button
 					id="create-game"
+					className="btn btn-primary"
+					type="button"
 					onClick={this.props.handleCreate}>
 					<i className="fa fa-group fa-2x"></i>
 				</button>

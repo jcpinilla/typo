@@ -13,8 +13,13 @@ import Timer from "./Timer.js";
 class CurrentGame extends Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			showSuccess: false
+		};
 		this.startGame = this.startGame.bind(this);
 		this.prepareGame = this.prepareGame.bind(this);
+		this.showSuccess = this.showSuccess.bind(this);
+		this.dismissSuccessAlert = this.dismissSuccessAlert.bind(this);
 	}
 
 	prepareGame() {
@@ -31,6 +36,18 @@ class CurrentGame extends Component {
 					Meteor.call("games.setPrepareTime", gameId, prepareTime);
 				}
 			}, 1000);
+		});
+	}
+
+	showSuccess() {
+		this.setState({
+			showSuccess: true
+		});
+	}
+
+	dismissSuccessAlert() {
+		this.setState({
+			showSuccess: false
 		});
 	}
 
@@ -98,13 +115,31 @@ class CurrentGame extends Component {
 			up = null;
 			down = null;
 		}
+		let successAlert = null;
+		if (this.state.showSuccess) {
+			successAlert = (
+				<div id="success-alert">
+					<div className="alert alert-success alert-dismissible">
+						<button
+							onClick={this.dismissSuccessAlert}
+							type="button"
+							className="close"
+							data-dismiss="alert">
+							&times;
+						</button>
+						New max: <strong>{wpm}</strong> wpm!
+					</div>
+				</div>
+			);
+		}
 		return (
 			<div id="current-game" className="row">
-				<div className="col-sm-3">
+				<div className="col-sm-4">
 					<Ranking
 						players={players} />
 				</div>
-				<div className="col-sm-9">
+				<div className="col-sm-8">
+					{successAlert}
 					<Timer
 						prepareTime={prepareTime}
 						timeRemaining={timeRemaining}
@@ -119,6 +154,7 @@ class CurrentGame extends Component {
 									text={text}
 									position={position}
 									wpm={wpm}
+									showSuccess={this.showSuccess}
 									timeElapsed={60 - timeRemaining} />
 							</div>
 						</div>
@@ -138,6 +174,11 @@ export default withTracker(({match}) => {
 	let prepareTime = game.prepareTime;
 	let timeRemaining = game.timeRemaining;
 	let players = game.players.sort((p1, p2) => p2.wpm - p1.wpm);
+	for (let p of players) {
+		let username = p.username;
+		let playerMaxWpm = Meteor.users.findOne({username}).profile.maxWpm;
+		p.maxWpm = playerMaxWpm;
+	}
 	let currentUsername = Meteor.user().username;
 	return {
 		gameId,

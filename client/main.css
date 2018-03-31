@@ -3,6 +3,10 @@
 	font-size: 130%;
 }
 
+#home-header {
+	margin-top: 200px;
+}
+
 #join-error-alert {
 	margin: 0px 130px;
 }

@@ -51,22 +51,23 @@ export default class Ranking extends Component {
 				<button
 					value="previous"
 					onClick={this.handlePageChange}
-					className="page-link">
+					className="page-link page-button">
 					Previous
 				</button>
 			</li>
 		];
 		for(let i = 1; i <= numberOfPages; i++) {
-			let pageClassName = classnames({
-				"page-item": true,
-				"active": i === currentPage
+			let pageButtonClassName = classnames({
+				"page-link": true,
+				"page-button": true,
+				"active-page": i === currentPage
 			});
 			pagination.push(
-				<li key={i} className={pageClassName}>
+				<li key={i} className="page-item">
 					<button
 						value={i}
 						onClick={this.handlePageChange}
-						className="page-link">
+						className={pageButtonClassName}>
 						{i}
 					</button>
 				</li>
@@ -77,7 +78,7 @@ export default class Ranking extends Component {
 				<button
 					value="next"
 					onClick={this.handlePageChange}
-					className="page-link">
+					className="page-link page-button">
 					Next
 				</button>
 			</li>

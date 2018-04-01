@@ -144,3 +144,11 @@ h1, h2, h3, h4 {
 .bigger-header-message {
 	font-size: 150%;
 }
+
+.page-button {
+	color: blue;
+}
+
+.active-page {
+	background-color: Lavender;
+}

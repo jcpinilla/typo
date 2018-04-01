@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Meteor } from "meteor/meteor";
 import { withTracker } from "meteor/react-meteor-data";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 import { Games } from "../api/games.js";
 
@@ -68,12 +68,12 @@ class CurrentGame extends Component {
 	}
 
 	render() {
+		let currentUsername = this.props.currentUsername;
 		let gameId = this.props.gameId;
 		let host = this.props.host;
 		let text = this.props.text;
 		let prepareTime = this.props.prepareTime;
 		let timeRemaining = this.props.timeRemaining;
-		let currentUsername = this.props.currentUsername;
 		let isHost = currentUsername === host;
 
 		let players = this.props.players;
@@ -116,14 +116,14 @@ class CurrentGame extends Component {
 			down = null;
 		}
 		let successAlert = null;
-		if (this.state.showSuccess) {
+		if (this.state.showSuccess && timeRemaining === 0) {
 			successAlert = (
 				<div id="success-alert">
 					<div className="alert alert-success alert-dismissible">
 						<button
 							onClick={this.dismissSuccessAlert}
 							type="button"
-							className="close"
+							className="close alert-close"
 							data-dismiss="alert">
 							&times;
 						</button>

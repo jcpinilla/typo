@@ -22,7 +22,7 @@ export default class Join extends Component {
 							<button
 								onClick={this.props.dismissErrorMessage}
 								type="button"
-								className="close"
+								className="close alert-close"
 								data-dismiss="alert">
 								&times;
 							</button>

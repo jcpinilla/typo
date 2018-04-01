@@ -192,13 +192,16 @@ export default class CurrentPlayer extends Component {
 								<div>{nextText}</div>
 							</div>
 					}
-					<input
-						className={inputClassName}
-						placeholder={inputPlaceholder}
-						autoFocus
-						type="text"
-						value={this.state.value}
-						onChange={this.handleChange} />
+					<label>
+						<input
+							className={inputClassName}
+							placeholder={inputPlaceholder}
+							title="Type here"
+							autoFocus
+							type="text"
+							value={this.state.value}
+							onChange={this.handleChange} />
+					</label>
 				</div>
 				<div className="col-sm-2 text-center">
 					<div id="current-wpm-number">{wpm}</div>

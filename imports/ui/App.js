@@ -13,13 +13,17 @@ class App extends Component {
 		return (
 			<Router>
 				<div className="container-fluid">
-					<Header />
-					{user &&
-						<Switch>
-							<Route exact path="/" component={CreateJoin} />
-							<Route path="/:gameId" component={CurrentGame} />
-						</Switch>
-					}
+					<header>
+						<Header />
+					</header>
+					<main>
+						{user &&
+							<Switch>
+								<Route exact path="/" component={CreateJoin} />
+								<Route path="/:gameId" component={CurrentGame} />
+							</Switch>
+						}
+					</main>
 				</div>
 			</Router>
 		);

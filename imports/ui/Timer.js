@@ -14,10 +14,11 @@ export default class Timer extends Component {
 			} else {
 				message = (
 					<div>
-						<h3>Waiting for {isHost?"you":"host"} to start the game...</h3>
+						<h2>Waiting for {isHost?"you":"host"} to start the game...</h2>
 						{isHost &&
 							<button
 								type="button"
+								title="Start game"
 								className="btn btn-primary"
 								onClick={this.props.prepareGame}
 								disabled={timeRemaining !== 0}>

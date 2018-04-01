@@ -10,8 +10,7 @@
     "meteor-node-stubs": "^0.3.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-router-dom": "^4.2.2",
-    "webfontloader": "^1.6.28"
+    "react-router-dom": "^4.2.2"
   },
   "devDependencies": {
     "eslint": "^4.19.1",

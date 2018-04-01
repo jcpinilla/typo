@@ -47,9 +47,8 @@ export default class Ranking extends Component {
 		let numberOfPages = this.calculateNumberOfPages();
 		players = players.slice((currentPage - 1) * this.perPage, currentPage * this.perPage);
 		let pagination = [
-			<li className="page-item">
+			<li key="previous" className="page-item">
 				<button
-					key="previous"
 					value="previous"
 					onClick={this.handlePageChange}
 					className="page-link">
@@ -63,9 +62,8 @@ export default class Ranking extends Component {
 				"active": i === currentPage
 			});
 			pagination.push(
-				<li className={pageClassName}>
+				<li key={i} className={pageClassName}>
 					<button
-						key={i}
 						value={i}
 						onClick={this.handlePageChange}
 						className="page-link">
@@ -75,9 +73,8 @@ export default class Ranking extends Component {
 			);
 		}
 		pagination.push(
-			<li className="page-item">
+			<li key="next" className="page-item">
 				<button
-					key="next"
 					value="next"
 					onClick={this.handlePageChange}
 					className="page-link">

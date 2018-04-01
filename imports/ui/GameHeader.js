@@ -7,18 +7,21 @@ export default class GameHeader extends Component {
 	render() {
 		let gameId = this.props.match.params.gameId;
 		return (
-			<div className="row text-center">
-				<div className="col-sm-3">
-					<h1 className="display-1">
-						<Link to="/">TYPO</Link>
-					</h1>
+			<div>
+				<div className="row text-center">
+					<div className="col-sm-3">
+						<h1 className="display-1">
+							<Link to="/">TYPO</Link>
+						</h1>
+					</div>
+					<div className="col-sm-6 header-message">
+						Game ID: <span className="bigger-header-message">{gameId}</span>
+					</div>
+					<div className="col-sm-3">
+						<AccountsUIWrapper />
+					</div>
 				</div>
-				<div className="col-sm-6 header-message">
-					Game ID: <span className="bigger-header-message">{gameId}</span>
-				</div>
-				<div className="col-sm-3">
-					<AccountsUIWrapper />
-				</div>
+				<hr />
 			</div>
 		);
 	}

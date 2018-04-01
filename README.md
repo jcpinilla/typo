@@ -6,4 +6,4 @@ cd typo
 meteor npm install
 meteor
 ```
-The app will be running in [http://localhost:3000](http://localhost:3000).
+The app will be running at [http://localhost:3000](http://localhost:3000).

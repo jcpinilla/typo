@@ -18,4 +18,3 @@ MIT
 
 **Free Software, This project is licensed under the terms of the MIT license.**
 See [LICENSE](https://raw.githubusercontent.com/jcpinilla/typo/master/LICENSE) for more.
-

@@ -11,7 +11,10 @@ export default class HomeHeader extends Component {
 					<h1 id="home-title">
 						<Link to="/">TYPO</Link>
 					</h1>
-					<AccountsUIWrapper />
+					<h2 id="welcome-message">A typing competition for you and your friends</h2>
+					<div id="home-login">
+						<AccountsUIWrapper />
+					</div>
 				</div>
 			</div>
 		);

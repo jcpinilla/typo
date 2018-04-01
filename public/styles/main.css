@@ -54,7 +54,6 @@ h1, h2, h3, h4 {
 
 #timer {
 	text-align: center;
-	height: 80px;
 	margin-bottom: 10px;
 }
 
@@ -79,6 +78,7 @@ h1, h2, h3, h4 {
 }
 
 #other-username {
+	margin-top: 18px;
 	font-size: 150%;
 }
 
@@ -106,10 +106,14 @@ h1, h2, h3, h4 {
 }
 
 .done-char {
-	color: DarkSeaGreen;
+	color: DarkGreen;
+	font-weight: bold;
 }
 .current-char {
-	background-color: Aquamarine;
+	background-color: DarkSlateGray;
+	color: FloralWhite;
+	padding: 3px;
+	font-weight: bold;
 }
 
 .is-first,

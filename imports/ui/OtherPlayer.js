@@ -30,7 +30,7 @@ export default class OtherPlayer extends Component {
 		let current = player.current;
 
 		let currentArray = current.split(" ");
-		let amount = 6;
+		let amount = 4;
 		current = currentArray
 			.slice(-amount)
 			.join(" ");
@@ -39,10 +39,10 @@ export default class OtherPlayer extends Component {
 				<div className="col-sm-2 text-center">
 					<div><span id="other-position">{position}</span>{termination}</div>
 				</div>
-				<div className="col-sm-2 text-center">
+				<div className="col-sm-3 text-center">
 					<div id="other-username">{username}</div>
 				</div>
-				<div className="col-sm-6">
+				<div className="col-sm-5">
 					<div id="other-current">{current}</div>
 				</div>
 				<div className="col-sm-2 text-center">

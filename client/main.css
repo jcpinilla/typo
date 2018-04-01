@@ -1,10 +1,24 @@
+body {
+	font-family: 'Anonymous Pro', monospace;
+}
+
+h1, h2, h3, h4 {
+	font-family: 'Poppins', sans-serif;
+}
+
 #success-alert {
 	margin: 0px 270px;
 	font-size: 130%;
 }
 
+
 #home-header {
+	font-size: 150%;
 	margin-top: 200px;
+}
+
+#home-title {
+	font-size: 1000%;
 }
 
 #join-error-alert {
@@ -65,7 +79,7 @@
 }
 
 #other-username {
-	font-size: 300%;
+	font-size: 150%;
 }
 
 #other-current {

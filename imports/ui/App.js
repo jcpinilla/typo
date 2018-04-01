@@ -27,10 +27,10 @@ class App extends Component {
 }
 
 export default withTracker(() => {
-	let currentUser = Meteor.user();
-	if (currentUser !== null) {
-		Meteor.call("players.tryCreateProfile");
-	}
+	// let currentUser = Meteor.user();
+	// if (currentUser !== null) {
+	// 	Meteor.call("players.tryCreateProfile");
+	// }
 	return {
 		currentUser: Meteor.user()
 	};

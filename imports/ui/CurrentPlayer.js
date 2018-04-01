@@ -17,6 +17,7 @@ export default class CurrentPlayer extends Component {
 		let initialWpm = 0;
 		Meteor.call("games.setCurrent", gameId, initialCurrent);
 		Meteor.call("games.setWpm", gameId, initialWpm);
+		this.inAccent = false;
 		return {
 			index: 0,
 			wordIndex: 0,
@@ -61,10 +62,37 @@ export default class CurrentPlayer extends Component {
 		Meteor.call("games.addChar", gameId, char);
 	}
 
+	addAccent(vocal) {
+		switch (vocal) {
+		case "a":
+			return "á";
+		case "e":
+			return "é";
+		case "i":
+			return "í";
+		case "o":
+			return "ó";
+		case "u":
+			return "ú";
+		default:
+			return null;
+		}
+	}
+
 	handleChange(e) {
 		let index = this.state.index;
 		let inputText = e.target.value;
 		let inputChar = inputText[inputText.length - 1];
+		if (inputChar === "´") {
+			this.inAccent = true;
+			return;
+		}
+		if (this.inAccent) {
+			inputChar = this.addAccent(inputChar);
+			inputText = inputText.slice(0, inputText.length - 1);
+			inputText += inputChar;
+			this.inAccent = false;
+		}
 		if (
 			(inputChar !== " " || inputText !== " ")
 			&& inputChar === this.props.text[index]
@@ -148,6 +176,7 @@ export default class CurrentPlayer extends Component {
 			"input-waiting": timeElapsed === 60,
 			"input-playing": timeElapsed !== 60
 		});
+		let inputPlaceholder = timeElapsed === 60 ? "Get ready..." : "";
 		return (
 			<div className="row">
 				<div className="col-sm-2 text-center">
@@ -165,6 +194,7 @@ export default class CurrentPlayer extends Component {
 					}
 					<input
 						className={inputClassName}
+						placeholder={inputPlaceholder}
 						autoFocus
 						type="text"
 						value={this.state.value}

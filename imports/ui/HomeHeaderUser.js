@@ -33,8 +33,14 @@ class HomeHeaderUser extends Component {
 export default withTracker(() => {
 
 	let maxWpm = undefined;
-	if (Meteor.user()) {
-		maxWpm = Meteor.users.findOne({username: Meteor.user().username}).profile.maxWpm;
+	let user = Meteor.user();
+	if (user) {
+		maxWpm = user.profile.maxWpm;
+		// if (!user.profile) {
+		// 	Meteor.call("players.tryCreateProfile", () => {
+		// 		maxWpm = user.profile.maxWpm;
+		// 	});
+		// }
 	}
 	return {
 		maxWpm

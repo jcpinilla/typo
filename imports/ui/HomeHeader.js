@@ -8,7 +8,7 @@ export default class HomeHeader extends Component {
 		return (
 			<div id="home-header">
 				<div className="text-center">
-					<h1 className="display-1">
+					<h1 id="home-title">
 						<Link to="/">TYPO</Link>
 					</h1>
 					<AccountsUIWrapper />

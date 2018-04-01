@@ -71,20 +71,20 @@ h1, h2, h3, h4 {
 	font-size: 400%;
 }
 
-#other-position {
+.other-position {
 	font-size: 300%;
 }
 
-#other-wpm-number {
+.other-wpm-number {
 	font-size: 200%;
 }
 
-#other-username {
+.other-username {
 	margin-top: 23px;
 	font-size: 150%;
 }
 
-#other-current {
+.other-current {
 	margin-top: 30px;
 	font-size: 110%;
 }
@@ -162,4 +162,8 @@ h1, h2, h3, h4 {
 .alert-close {
 	color: black;
 	opacity: 1;
+}
+
+.arrow {
+	font-size: 150%;
 }

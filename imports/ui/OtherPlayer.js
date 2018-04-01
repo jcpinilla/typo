@@ -37,16 +37,16 @@ export default class OtherPlayer extends Component {
 		return (
 			<div className="row">
 				<div className="col-sm-2 text-center">
-					<div><span id="other-position">{position}</span>{termination}</div>
+					<div><span className="other-position">{position}</span>{termination}</div>
 				</div>
 				<div className="col-sm-3 text-center">
-					<div id="other-username">{username}</div>
+					<div className="other-username">{username}</div>
 				</div>
 				<div className="col-sm-5">
-					<div id="other-current">{current}</div>
+					<div className="other-current">{current}</div>
 				</div>
 				<div className="col-sm-2 text-center">
-					<div id="other-wpm-number">{wpm}</div>
+					<div className="other-wpm-number">{wpm}</div>
 					<div>wpm</div>
 				</div>
 			</div>

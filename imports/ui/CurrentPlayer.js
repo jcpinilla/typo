@@ -193,7 +193,7 @@ export default class CurrentPlayer extends Component {
 							</div>
 					}
 					<label>
-						{"---> "}
+						<span className="arrow">&#x21E8;{" "}</span>
 						<input
 							className={inputClassName}
 							placeholder={inputPlaceholder}
@@ -202,7 +202,7 @@ export default class CurrentPlayer extends Component {
 							type="text"
 							value={this.state.value}
 							onChange={this.handleChange} />
-						{" <---"}
+						<span className="arrow">{" "}&#x21E6;</span>
 					</label>
 				</div>
 				<div className="col-sm-2 text-center">

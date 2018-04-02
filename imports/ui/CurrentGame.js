@@ -168,6 +168,7 @@ class CurrentGame extends Component {
 
 export default withTracker(({match}) => {
 	let gameId = match.params.gameId;
+	//Pueden usar Meteor.Methods para garantizar la seguridad en la BD.
 	let game = Games.findOne({_id: gameId});
 	let host = game.host;
 	let text = game.text;

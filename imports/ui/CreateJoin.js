@@ -12,12 +12,14 @@ export default class CreateJoin extends Component {
 			gameId: null,
 			gameIdJoin: "",
 			language: "es",
+			privateGame: true,
 			errorMessage: null
 		};
 		this.handleCreate = this.handleCreate.bind(this);
 		this.handleGameIdJoinChange = this.handleGameIdJoinChange.bind(this);
 		this.handleLanguageChange = this.handleLanguageChange.bind(this);
-		this.handleSubmit = this.handleSubmit.bind(this);
+		this.handlePrivateGameChange = this.handlePrivateGameChange.bind(this);
+		this.handleJoin = this.handleJoin.bind(this);
 		this.dismissErrorMessage = this.dismissErrorMessage.bind(this);
 	}
 
@@ -29,8 +31,10 @@ export default class CreateJoin extends Component {
 
 	handleCreate() {
 		let language = this.state.language;
+		let privateGame = this.state.privateGame;
 		Meteor.call("games.create",
-			language, 
+			language,
+			privateGame,
 			(err, res) => {
 				let gameId = res;
 				this.setState({
@@ -41,8 +45,17 @@ export default class CreateJoin extends Component {
 
 	handleGameIdJoinChange(e) {
 		let gameIdJoin = e.target.value;
+		if (!/^\d*$/.test(gameIdJoin)) return;
 		this.setState({
-			gameIdJoin
+			gameIdJoin,
+			errorMessage: null
+		});
+	}
+
+	handlePrivateGameChange(e) {
+		let privateGame = e.target.checked;
+		this.setState({
+			privateGame
 		});
 	}
 
@@ -53,21 +66,22 @@ export default class CreateJoin extends Component {
 		});
 	}
 
-	handleSubmit(e) {
+	handleJoin(e) {
+		e.preventDefault();
 		let gameId = this.state.gameIdJoin;
+		if (gameId === "") return;
 		Meteor.call("games.join", gameId, (err, res) => {
-			if (res) {
+			if (res.ok) {
 				this.setState({
 					gameId
 				});
 			} else {
-				let errorMessage = `The game with ID ${gameId} doesn't exist.`;
+				let errorMessage = res.errorMessage;
 				this.setState({
 					errorMessage
 				});
 			}
 		});
-		e.preventDefault();
 	}
 
 	render() {
@@ -79,12 +93,14 @@ export default class CreateJoin extends Component {
 			<div id="create-join" className="row">						
 				<Create
 					language={this.state.language}
+					privateGame={this.state.privateGame}
 					handleLanguageChange={this.handleLanguageChange}
+					handlePrivateGameChange={this.handlePrivateGameChange}
 					handleCreate={this.handleCreate} />
 				<Join
 					errorMessage={this.state.errorMessage}
 					dismissErrorMessage={this.dismissErrorMessage}
-					handleSubmit={this.handleSubmit}
+					handleJoin={this.handleJoin}
 					gameIdJoin={this.state.gameIdJoin}
 					handleGameIdJoinChange={this.handleGameIdJoinChange} />
 			</div>

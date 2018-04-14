@@ -6,6 +6,11 @@ h1, h2, h3, h4 {
 	font-family: "Poppins", sans-serif;
 }
 
+#invite-player-button {
+	font-size: 70%;
+	margin-left: 5px;
+}
+
 #success-alert {
 	margin: 0px 270px;
 	font-size: 130%;
@@ -91,6 +96,11 @@ h1, h2, h3, h4 {
 
 #my-text {
 	margin-top: 10px;
+}
+
+.invited-player {
+	font-size: 110%;
+	margin: 5px 5px;
 }
 
 .input-playing {

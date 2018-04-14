@@ -9,6 +9,7 @@ import OtherPlayer from "./OtherPlayer.js";
 import CurrentPlayer from "./CurrentPlayer.js";
 import Ranking from "./Ranking.js";
 import Timer from "./Timer.js";
+import InvitedPlayers from "./InvitedPlayers.js";
 
 class CurrentGame extends Component {
 	constructor(props) {
@@ -67,7 +68,15 @@ class CurrentGame extends Component {
 		});
 	}
 
+	componentWillUnmount() {
+		let gameId = this.props.gameId;
+		Meteor.call("games.removePlayer", gameId);
+	}
+
 	render() {
+		if (!this.props.gameId) {
+			return null;
+		}
 		let currentUsername = this.props.currentUsername;
 		let gameId = this.props.gameId;
 		let host = this.props.host;
@@ -132,9 +141,33 @@ class CurrentGame extends Component {
 				</div>
 			);
 		}
+		let invitedPlayers = null;
+		let privateGame = this.props.privateGame;
+		if (privateGame) {
+			let invited = this.props.invited;
+			invited = invited
+				.map(username => {
+					for (let p of players) {
+						if (username === p.username) {
+							return {
+								username,
+								joined: true
+							};
+						}
+					}
+					return {username};
+				});
+			invitedPlayers = (
+				<InvitedPlayers
+					gameId={gameId}
+					invited={invited}
+					isHost={isHost} />
+			);
+		}
 		return (
 			<div id="current-game" className="row">
 				<div className="col-sm-4">
+					{invitedPlayers}
 					<Ranking
 						players={players} />
 				</div>
@@ -143,6 +176,7 @@ class CurrentGame extends Component {
 					<Timer
 						prepareTime={prepareTime}
 						timeRemaining={timeRemaining}
+						host={host}
 						isHost={isHost}
 						prepareGame={this.prepareGame} />
 					<div className="card">
@@ -168,25 +202,33 @@ class CurrentGame extends Component {
 
 export default withTracker(({match}) => {
 	let gameId = match.params.gameId;
-	let game = Games.findOne({_id: gameId});
-	let host = game.host;
-	let text = game.text;
-	let prepareTime = game.prepareTime;
-	let timeRemaining = game.timeRemaining;
-	let players = game.players.sort((p1, p2) => p2.wpm - p1.wpm);
-	for (let p of players) {
-		let username = p.username;
-		let playerMaxWpm = Meteor.users.findOne({username}).profile.maxWpm;
-		p.maxWpm = playerMaxWpm;
+	if (Meteor.subscribe("games", gameId).ready() && Meteor.subscribe("players").ready()) {
+		let game = Games.findOne(gameId);
+		let host = game.host;
+		let text = game.text;
+		let prepareTime = game.prepareTime;
+		let timeRemaining = game.timeRemaining;
+		let players = game.players.sort((p1, p2) => p2.wpm - p1.wpm);
+		for (let p of players) {
+			let username = p.username;
+			let playerMaxWpm = Meteor.users.findOne({username}).profile.maxWpm;
+			p.maxWpm = playerMaxWpm;
+		}
+		let currentUsername = Meteor.user().username;
+		let privateGame = game.privateGame;
+		let invited = game.invited;
+		return {
+			gameId,
+			host,
+			text,
+			prepareTime,
+			timeRemaining,
+			currentUsername,
+			players,
+			privateGame,
+			invited
+		};
+	} else {
+		return {};
 	}
-	let currentUsername = Meteor.user().username;
-	return {
-		gameId,
-		host,
-		text,
-		prepareTime,
-		timeRemaining,
-		currentUsername,
-		players
-	};
 })(CurrentGame);

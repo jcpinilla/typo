@@ -5,6 +5,7 @@ export default class Timer extends Component {
 		let prepareTime = this.props.prepareTime;
 		let timeRemaining = this.props.timeRemaining;
 		let isHost = this.props.isHost;
+		let host = this.props.host;
 		let message;
 		if (prepareTime !== 0 && timeRemaining === 0) {
 			message = <h2>The game starts in {prepareTime}</h2>;
@@ -14,7 +15,7 @@ export default class Timer extends Component {
 			} else {
 				message = (
 					<div>
-						<h2>Waiting for {isHost?"you":"host"} to start the game...</h2>
+						<h2>Waiting for <strong>{isHost ? "you" : host}</strong> to start the game...</h2>
 						{isHost &&
 							<button
 								type="button"

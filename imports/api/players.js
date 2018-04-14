@@ -1,5 +1,11 @@
 import { Meteor } from "meteor/meteor";
 
+if (Meteor.isServer) {
+	Meteor.publish("players", function playersPublication() {
+		return Meteor.users.find();
+	});
+}
+
 Meteor.methods({
 	"players.attemptMaxWpm"(wpm) {
 		let maxWpm = Meteor.users.findOne(Meteor.userId()).profile.maxWpm;

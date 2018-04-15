@@ -18,29 +18,32 @@ class Random extends Component {
 	handleClick() {
 		let waiting = this.state.waiting;
 		if (!waiting) {
-			let pendingPlayers = this.props.pendingPlayers;
-			let rivalUsername = null;
-			let currentWpm = Meteor.user().profile.maxWpm;
-			let maxDiff = 10;
-			for (let p of pendingPlayers) {
-				let currentRivalUsername = p.username;
-				let rivalWpm = Meteor.users.findOne({username: currentRivalUsername}).profile.maxWpm;
-				let diff = Math.abs(currentWpm - rivalWpm);
-				if (diff < maxDiff) {
-					rivalUsername = currentRivalUsername;
-					break;
-				}
-			}
-			if (rivalUsername) {
+			this.setState({
+				waiting: !waiting
+			});
+			// let pendingPlayers = this.props.pendingPlayers;
+			// let rivalUsername = null;
+			// let currentWpm = Meteor.user().profile.maxWpm;
+			// let maxDiff = 10;
+			// for (let p of pendingPlayers) {
+			// 	let currentRivalUsername = p.username;
+			// 	let rivalWpm = Meteor.users.findOne({username: currentRivalUsername}).profile.maxWpm;
+			// 	let diff = Math.abs(currentWpm - rivalWpm);
+			// 	if (diff < maxDiff) {
+			// 		rivalUsername = currentRivalUsername;
+			// 		break;
+			// 	}
+			// }
+			// if (rivalUsername) {
 
-			} else {
-				Meteor.call("games.create", "en", false, (err, res) =>{
-					let gameId = res;
-					Meteor.call("pending.insert", gameId);
-					this.setState({
-						waiting: !waiting
-					});
-				});
+			// } else {
+			// 	Meteor.call("games.create", "en", false, (err, res) =>{
+			// 		let gameId = res;
+			// 		Meteor.call("pending.insert", gameId);
+			// 		this.setState({
+			// 			waiting: !waiting
+			// 		});
+			// 	});
 			}
 		} else {
 			this.setState({

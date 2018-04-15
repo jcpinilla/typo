@@ -11,6 +11,11 @@ h1, h2, h3, h4 {
 	margin-left: 5px;
 }
 
+#waiting-spinner {
+	margin-top: 15px;
+	font-size: 200%;
+}
+
 #success-alert {
 	margin: 0px 270px;
 	font-size: 130%;

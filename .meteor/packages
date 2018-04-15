@@ -25,3 +25,5 @@ practicalmeteor:chai
 xolvio:cleaner
 dburles:factory
 practicalmeteor:sinon
+accounts-twitter
+twitter-config-ui

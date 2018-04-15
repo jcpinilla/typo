@@ -11,6 +11,8 @@ if (Meteor.isServer) {
 	});
 }
 
+let numberOfWords = 200;
+
 Meteor.methods({
 	"games.create"(language, privateGame) {
 		if (!Meteor.user()._id) {
@@ -18,7 +20,6 @@ Meteor.methods({
 		}
 
 		let gameId = "" + (Games.find({}).count() + 1);
-		let numberOfWords = 200;
 		let host = Meteor.user().username;
 		let text = generateWords(language, numberOfWords);
 		let prepareTime = 0;
@@ -42,6 +43,13 @@ Meteor.methods({
 		}
 		Games.insert(newGame);
 		return gameId;
+	},
+	"games.changeText"(gameId) {
+		let game = Games.findOne(gameId);
+		if (!game) return;
+		let language = game.language;
+		let text = generateWords(language, numberOfWords);
+		Games.update(gameId, {$set: {text}});
 	},
 	"games.removePlayer"(gameId) {
 		let game = Games.findOne(gameId);

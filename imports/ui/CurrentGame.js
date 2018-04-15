@@ -61,6 +61,7 @@ class CurrentGame extends Component {
 				let timeRemaining = this.props.timeRemaining;
 				timeRemaining--;
 				if (!timeRemaining) {
+					Meteor.call("games.changeText", gameId);
 					clearInterval(this.gameInterval);
 				}
 				Meteor.call("games.setTimeRemaining", gameId, timeRemaining);

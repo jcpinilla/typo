@@ -12,7 +12,7 @@ export default class CreateJoin extends Component {
 			gameId: null,
 			gameIdJoin: "",
 			language: "es",
-			privateGame: true,
+			privateGame: false,
 			errorMessage: null
 		};
 		this.handleCreate = this.handleCreate.bind(this);
@@ -107,7 +107,7 @@ export default class CreateJoin extends Component {
 			return <Redirect to={`/${gameId}`} />;
 		}
 		return (
-			<div id="create-join" className="row">						
+			<div id="create-join" className="row">		
 				<Create
 					language={this.state.language}
 					privateGame={this.state.privateGame}

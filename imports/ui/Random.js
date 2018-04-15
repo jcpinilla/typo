@@ -69,6 +69,12 @@ class Random extends Component {
 		}
 	}
 
+	componentWillUnmount() {
+		if (this.state.waiting) {
+			Meteor.call("pending.stopWaiting");
+		}
+	}
+
 	render() {
 		let pendingPlayers = this.props.pendingPlayers;
 		if (!pendingPlayers) {

@@ -1,10 +1,19 @@
 import React, { Component } from "react";
 
 export default class Invitation extends Component {
+	constructor(props) {
+		super(props);
+		this.handleJoinFromInvitation = this.handleJoinFromInvitation.bind(this);
+	}
+
+	handleJoinFromInvitation() {
+		let gameId = this.props.invitation.gameId;
+		this.props.handleJoinFromInvitation(gameId);
+	}
+
 	render() {
 		let invitation = this.props.invitation;
 		let host = invitation.host;
-		let gameId = invitation.gameId;
 		return (
 			<div className="invitation-alert alert alert-info alert-dismissible">
 				<button
@@ -18,7 +27,7 @@ export default class Invitation extends Component {
 				<button
 					className="btn btn-link"
 					type="button"
-					onClick={this.props.handleJoinFromInvitation}>
+					onClick={this.handleJoinFromInvitation}>
 					<strong>this</strong>
 				</button>
 				game.

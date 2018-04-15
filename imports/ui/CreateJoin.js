@@ -70,12 +70,12 @@ export default class CreateJoin extends Component {
 
 	handleJoin(e) {
 		e.preventDefault();
-		let gameIdJoin = this.state.gameIdJoinJoin;
+		let gameIdJoin = this.state.gameIdJoin;
 		if (gameIdJoin === "") return;
 		Meteor.call("games.join", gameIdJoin, (err, res) => {
 			if (res.ok) {
 				this.setState({
-					gameIdJoin
+					gameId: gameIdJoin
 				});
 			} else {
 				let errorMessage = res.errorMessage;
@@ -90,7 +90,7 @@ export default class CreateJoin extends Component {
 		Meteor.call("games.join", gameIdJoin, (err, res) => {
 			if (res.ok) {
 				this.setState({
-					gameIdJoin
+					gameId: gameIdJoin
 				});
 			} else {
 				let errorMessage = res.errorMessage;

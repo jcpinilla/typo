@@ -33,6 +33,7 @@ Meteor.methods({
 			_id: gameId,
 			host,
 			text,
+			language,
 			prepareTime,
 			timeRemaining,
 			players

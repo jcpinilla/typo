@@ -21,7 +21,7 @@ class Random extends Component {
 			let pendingPlayers = this.props.pendingPlayers;
 			let rivalPlayer = null;
 			let currentWpm = Meteor.user().profile.maxWpm;
-			let maxDiff = 10;
+			let maxDiff = 20;
 			for (let p of pendingPlayers) {
 				let currentRivalUsername = p.username;
 				let rivalWpm = Meteor.users.findOne({username: currentRivalUsername}).profile.maxWpm;

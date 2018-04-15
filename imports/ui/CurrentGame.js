@@ -146,16 +146,13 @@ class CurrentGame extends Component {
 		if (privateGame) {
 			let invited = this.props.invited;
 			invited = invited
-				.map(username => {
+				.map(invitedPlayer => {
 					for (let p of players) {
-						if (username === p.username) {
-							return {
-								username,
-								joined: true
-							};
+						if (invitedPlayer.username === p.username) {
+							invitedPlayer.inGame = true;
 						}
 					}
-					return {username};
+					return invitedPlayer;
 				});
 			invitedPlayers = (
 				<InvitedPlayers
@@ -202,7 +199,7 @@ class CurrentGame extends Component {
 
 export default withTracker(({match}) => {
 	let gameId = match.params.gameId;
-	if (Meteor.subscribe("games", gameId).ready() && Meteor.subscribe("players").ready()) {
+	if (Meteor.subscribe("games").ready() && Meteor.subscribe("players").ready()) {
 		let game = Games.findOne(gameId);
 		let host = game.host;
 		let text = game.text;

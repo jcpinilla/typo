@@ -26,12 +26,12 @@ export default class InvitedPlayers extends Component {
 		if (inviteUsername.length === 0) return;
 		let gameId = this.props.gameId;
 		Meteor.call("games.invitePlayer", gameId, inviteUsername, (err, res) => {
-			if (res) {
+			if (res.ok) {
 				this.setState({
 					inviteUsername: ""
 				});
 			} else {
-				alert(`The username ${inviteUsername} doesn't exist.`);
+				alert(res.errorMessage);
 			}
 		});
 	}
@@ -66,10 +66,10 @@ export default class InvitedPlayers extends Component {
 					}
 				</div>
 				{
-					invited.map(player => 
+					invited.map(invitedPlayer => 
 						<InvitedPlayer
-							key={player.username}
-							player={player} />
+							key={invitedPlayer.username}
+							invitedPlayer={invitedPlayer} />
 					)
 				}
 			</div>

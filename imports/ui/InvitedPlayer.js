@@ -4,13 +4,13 @@ import classnames from "classnames";
 
 export default class InvitedPlayer extends Component {
 	render() {
-		let player = this.props.player;
-		let username = player.username;
-		let joined = player.joined;
-		let joinedClass = joined ? "badge-primary" : "badge-secondary";
+		let invitedPlayer = this.props.invitedPlayer;
+		let username = invitedPlayer.username;
+		let inGame = invitedPlayer.inGame;
+		let inGameClass = inGame ? "badge-primary" : "badge-secondary";
 		let className = classnames(
 			"invited-player badge badge-pill",
-			{[joinedClass]: true}
+			{[inGameClass]: true}
 		);
 		return (
 			<div className={className}>

@@ -6,8 +6,8 @@ import generateWords from "./WordGenerator.js";
 export const Games = new Mongo.Collection("games");
 
 if (Meteor.isServer) {
-	Meteor.publish("games", function gamesPublication(gameId) {
-		return Games.find(gameId);
+	Meteor.publish("games", function gamesPublication() {
+		return Games.find();
 	});
 }
 
@@ -55,24 +55,30 @@ Meteor.methods({
 			throw new Meteor.Error("not-authorized");
 		}
 
-		let game = Games.findOne({_id: gameId});
-		if (game === undefined) {
+		let game = Games.findOne(gameId);
+		if (!game) {
 			return {
 				errorMessage: `The game with ID ${gameId} doesn't exist.`
 			};
 		}
 		let privateGame = game.privateGame;
+		let invited = game.invited;
 		if (privateGame) {
-			let isInvited = game
-				.invited
-				.filter(invitedPlayer => invitedPlayer === Meteor.user().username)
-				.length == 1;
-			console.log(Meteor.user());
+			let invitedPlayer = null;
+			for (let inv of invited) {
+				if (inv.username === Meteor.user().username) {
+					invitedPlayer = inv;
+					break;
+				}
+			}
 			let isHost = game.host === Meteor.user().username;
-			if (!isHost && !isInvited) {
-				return {
-					errorMessage: "This game is private and you haven't been invited."
-				};
+			if (!isHost) {
+				if (!invitedPlayer) {
+					return {
+						errorMessage: "This game is private and you haven't been invited."
+					};
+				}
+				invitedPlayer.joined = true;
 			}
 		}
 		let newPlayer = {
@@ -80,8 +86,13 @@ Meteor.methods({
 			wpm: 0,
 			current: ""
 		};
-
-		Games.update(gameId, {$push: {players: newPlayer}});
+		let update = {
+			$push: {players: newPlayer},
+		};
+		if (privateGame) {
+			update.$set = {invited};
+		}
+		Games.update(gameId, update);
 		return {ok: true};
 	},
 	"games.setTimeRemaining"(gameId, timeRemaining) {
@@ -158,15 +169,21 @@ Meteor.methods({
 		}
 		let exists = Meteor.users.find({username}).count() === 1;
 		if (!exists) {
-			return false;
+			return {
+				errorMessage: `The username ${username} doesn't exist.`
+			};
 		}
 		let invited = game.invited;
 		let alreadyInvited = invited
-			.filter(invitedUsername => invitedUsername === username)
+			.filter(invitedPlayer => invitedPlayer.username === username)
 			.length === 1;
 		if (username !== game.host && !alreadyInvited) {
-			Games.update(gameId, {$push: {invited: username}});
+			let newInvited = {
+				username,
+				joined: false
+			};
+			Games.update(gameId, {$push: {invited: newInvited}});
 		}
-		return true;
+		return {ok: true};
 	}
 });

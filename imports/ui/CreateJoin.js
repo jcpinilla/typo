@@ -21,6 +21,7 @@ export default class CreateJoin extends Component {
 		this.handlePrivateGameChange = this.handlePrivateGameChange.bind(this);
 		this.handleJoin = this.handleJoin.bind(this);
 		this.dismissErrorMessage = this.dismissErrorMessage.bind(this);
+		this.handleJoinFromInvitation = this.handleJoinFromInvitation.bind(this);
 	}
 
 	dismissErrorMessage() {
@@ -40,7 +41,8 @@ export default class CreateJoin extends Component {
 				this.setState({
 					gameId
 				});
-			});
+			}
+		);
 	}
 
 	handleGameIdJoinChange(e) {
@@ -68,12 +70,27 @@ export default class CreateJoin extends Component {
 
 	handleJoin(e) {
 		e.preventDefault();
-		let gameId = this.state.gameIdJoin;
-		if (gameId === "") return;
-		Meteor.call("games.join", gameId, (err, res) => {
+		let gameIdJoin = this.state.gameIdJoinJoin;
+		if (gameIdJoin === "") return;
+		Meteor.call("games.join", gameIdJoin, (err, res) => {
 			if (res.ok) {
 				this.setState({
-					gameId
+					gameIdJoin
+				});
+			} else {
+				let errorMessage = res.errorMessage;
+				this.setState({
+					errorMessage
+				});
+			}
+		});
+	}
+
+	handleJoinFromInvitation(gameIdJoin) {
+		Meteor.call("games.join", gameIdJoin, (err, res) => {
+			if (res.ok) {
+				this.setState({
+					gameIdJoin
 				});
 			} else {
 				let errorMessage = res.errorMessage;
@@ -102,7 +119,8 @@ export default class CreateJoin extends Component {
 					dismissErrorMessage={this.dismissErrorMessage}
 					handleJoin={this.handleJoin}
 					gameIdJoin={this.state.gameIdJoin}
-					handleGameIdJoinChange={this.handleGameIdJoinChange} />
+					handleGameIdJoinChange={this.handleGameIdJoinChange}
+					handleJoinFromInvitation={this.handleJoinFromInvitation} />
 			</div>
 		);
 	}

@@ -19,15 +19,29 @@ class Random extends Component {
 		let waiting = this.state.waiting;
 		if (!waiting) {
 			let pendingPlayers = this.props.pendingPlayers;
-			let rival = null;
+			let rivalUsername = null;
 			let currentWpm = Meteor.user().profile.maxWpm;
+			let maxDiff = 10;
 			for (let p of pendingPlayers) {
-				let rivalWpm = Meteor.users.findOne({username: p.username}).profile.maxWpm;
+				let currentRivalUsername = p.username;
+				let rivalWpm = Meteor.users.findOne({username: currentRivalUsername}).profile.maxWpm;
+				let diff = Math.abs(currentWpm - rivalWpm);
+				if (diff < maxDiff) {
+					rivalUsername = currentRivalUsername;
+					break;
+				}
 			}
-			Meteor.call("pending.insert");
-			this.setState({
-				waiting: !waiting
-			});
+			if (rivalUsername) {
+
+			} else {
+				Meteor.call("games.create", "en", false, (err, res) =>{
+					let gameId = res;
+					Meteor.call("pending.insert", gameId);
+					this.setState({
+						waiting: !waiting
+					});
+				});
+			}
 		}
 	}
 

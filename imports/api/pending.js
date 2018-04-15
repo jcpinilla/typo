@@ -10,13 +10,19 @@ if (Meteor.isServer) {
 }
 
 Meteor.methods({
-	"pending.insert"(gameId) {
+	"pending.wait"(gameId) {
 		let username = Meteor.user().username;
-		if (Pending.findOne({username})) return;
-		let pendingPlayer = {
+		let	pendingPlayer = {
 			username,
 			gameId
 		};
 		Pending.insert(pendingPlayer);
+	},
+	"pending.stopWaiting"() {
+		let username = Meteor.user().username;
+		Pending.remove({username});
+	},
+	"pending.notifyReady"(username) {
+		Pending.update({username}, {$set: {ready: true}});
 	}
 });

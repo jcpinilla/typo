@@ -21,8 +21,10 @@ export default class CreateJoin extends Component {
 		this.handleLanguageChange = this.handleLanguageChange.bind(this);
 		this.handlePrivateGameChange = this.handlePrivateGameChange.bind(this);
 		this.handleJoin = this.handleJoin.bind(this);
-		this.dismissErrorMessage = this.dismissErrorMessage.bind(this);
 		this.handleJoinFromInvitation = this.handleJoinFromInvitation.bind(this);
+		
+		this.dismissErrorMessage = this.dismissErrorMessage.bind(this);
+		this.displayRandomGame = this.displayRandomGame.bind(this);
 	}
 
 	dismissErrorMessage() {
@@ -102,6 +104,12 @@ export default class CreateJoin extends Component {
 		});
 	}
 
+	displayRandomGame(gameId) {
+		this.setState({
+			gameId
+		});
+	}
+
 	render() {
 		let gameId = this.state.gameId;
 		if (gameId) {
@@ -111,7 +119,8 @@ export default class CreateJoin extends Component {
 			<div>
 				<div className="text-center row">
 					<div className="col-sm-12">
-						<Random />
+						<Random
+							displayRandomGame={this.displayRandomGame} />
 					</div>
 				</div>
 				<div id="create-join" className="row">

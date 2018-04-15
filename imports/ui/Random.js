@@ -18,37 +18,54 @@ class Random extends Component {
 	handleClick() {
 		let waiting = this.state.waiting;
 		if (!waiting) {
-			this.setState({
-				waiting: !waiting
-			});
-			// let pendingPlayers = this.props.pendingPlayers;
-			// let rivalUsername = null;
-			// let currentWpm = Meteor.user().profile.maxWpm;
-			// let maxDiff = 10;
-			// for (let p of pendingPlayers) {
-			// 	let currentRivalUsername = p.username;
-			// 	let rivalWpm = Meteor.users.findOne({username: currentRivalUsername}).profile.maxWpm;
-			// 	let diff = Math.abs(currentWpm - rivalWpm);
-			// 	if (diff < maxDiff) {
-			// 		rivalUsername = currentRivalUsername;
-			// 		break;
-			// 	}
-			// }
-			// if (rivalUsername) {
-
-			// } else {
-			// 	Meteor.call("games.create", "en", false, (err, res) =>{
-			// 		let gameId = res;
-			// 		Meteor.call("pending.insert", gameId);
-			// 		this.setState({
-			// 			waiting: !waiting
-			// 		});
-			// 	});
-			// }
+			let pendingPlayers = this.props.pendingPlayers;
+			let rivalPlayer = null;
+			let currentWpm = Meteor.user().profile.maxWpm;
+			let maxDiff = 10;
+			for (let p of pendingPlayers) {
+				let currentRivalUsername = p.username;
+				let rivalWpm = Meteor.users.findOne({username: currentRivalUsername}).profile.maxWpm;
+				let diff = Math.abs(currentWpm - rivalWpm);
+				if (diff < maxDiff) {
+					rivalPlayer = p;
+					break;
+				}
+			}
+			if (rivalPlayer) {
+				let gameIdJoin = rivalPlayer.gameId;
+				Meteor.call("games.join", gameIdJoin, (err, res) => {
+					if (res.ok) {
+						Meteor.call("pending.notifyReady", rivalPlayer.username);
+						this.props.displayRandomGame(gameIdJoin);
+					}
+				});
+			} else {
+				Meteor.call("games.create", "en", false, (err, res) => {
+					let gameId = res;
+					Meteor.call("pending.wait", gameId);
+					this.setState({
+						waiting: !waiting
+					});
+				});
+			}
 		} else {
+			Meteor.call("pending.stopWaiting");
 			this.setState({
 				waiting: !waiting
 			});
+		}
+	}
+
+	componentWillReceiveProps(nextProps) {
+		if (this.props !== nextProps) {
+			let pendingPlayers = nextProps.pendingPlayers;
+			if (!pendingPlayers) return;
+			let pendingPlayer = pendingPlayers
+				.filter(pp => pp.username === Meteor.user().username)[0];
+			if (pendingPlayer && pendingPlayer.ready) {
+				this.props.displayRandomGame(pendingPlayer.gameId);
+				Meteor.call("pending.stopWaiting");
+			}
 		}
 	}
 

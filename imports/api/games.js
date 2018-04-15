@@ -13,7 +13,7 @@ if (Meteor.isServer) {
 
 Meteor.methods({
 	"games.create"(language, privateGame) {
-		if (!this.userId) {
+		if (!Meteor.user()._id) {
 			throw new Meteor.Error("not-authorized");
 		}
 
@@ -51,7 +51,7 @@ Meteor.methods({
 		Games.update(gameId, {$set: {players}});
 	},
 	"games.join"(gameId) {
-		if (!this.userId) {
+		if (!Meteor.user()._id) {
 			throw new Meteor.Error("not-authorized");
 		}
 
@@ -96,21 +96,21 @@ Meteor.methods({
 		return {ok: true};
 	},
 	"games.setTimeRemaining"(gameId, timeRemaining) {
-		if (!this.userId) {
+		if (!Meteor.user()._id) {
 			throw new Meteor.Error("not-authorized");
 		}
 
 		Games.update(gameId, {$set: {timeRemaining}});
 	},
 	"games.setPrepareTime"(gameId, prepareTime) {
-		if (!this.userId) {
+		if (!Meteor.user()._id) {
 			throw new Meteor.Error("not-authorized");
 		}
 
 		Games.update(gameId, {$set: {prepareTime}});
 	},
 	"games.addChar"(gameId, char) {
-		if (!this.userId) {
+		if (!Meteor.user()._id) {
 			throw new Meteor.Error("not-authorized");
 		}
 		let game = Games.findOne(gameId);
@@ -128,7 +128,7 @@ Meteor.methods({
 		Games.update(gameId, {$set: {players}});
 	},
 	"games.setWpm"(gameId, wpm) {
-		if (!this.userId) {
+		if (!Meteor.user()._id) {
 			throw new Meteor.Error("not-authorized");
 		}
 		let game = Games.findOne(gameId);
@@ -144,7 +144,7 @@ Meteor.methods({
 		Games.update(gameId, {$set: {players}});
 	},
 	"games.setCurrent"(gameId, current) {
-		if (!this.userId) {
+		if (!Meteor.user()._id) {
 			throw new Meteor.Error("not-authorized");
 		}
 		let game = Games.findOne(gameId);
@@ -160,7 +160,7 @@ Meteor.methods({
 		Games.update(gameId, {$set: {players}});
 	},
 	"games.invitePlayer"(gameId, username) {
-		if (!this.userId) {
+		if (!Meteor.user()._id) {
 			throw new Meteor.Error("not-authorized");
 		}
 		let game = Games.findOne(gameId);

@@ -4,7 +4,7 @@ import { Mongo } from "meteor/mongo";
 export const Pending = new Mongo.Collection("pending");
 
 if (Meteor.isServer) {
-	Meteor.publish("pending", function gamesPublication() {
+	Meteor.publish("pending", function pendingPublication() {
 		return Pending.find();
 	});
 }

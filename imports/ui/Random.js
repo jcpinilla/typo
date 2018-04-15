@@ -15,7 +15,7 @@ export default class Random extends Component {
 	handleClick() {
 		let waiting = this.state.waiting;
 		if (!waiting) {
-			Meteor.call("games.insert");
+			Meteor.call("pending.insert");
 			this.setState({
 				waiting: !waiting
 			});

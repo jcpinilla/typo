@@ -12,8 +12,8 @@ if (Meteor.isServer) {
 Meteor.methods({
 	"pending.insert"() {
 		let username = Meteor.user().username;
-		let player = Pending.findOne({username});
-		if (player) return;
+		let pendingPlayer = Pending.findOne({username});
+		if (pendingPlayer) return;
 		Pending.insert({username});
 	}
 });

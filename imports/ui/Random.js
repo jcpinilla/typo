@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import { Meteor } from "meteor/meteor";
+import { withTracker } from "meteor/react-meteor-data";
+
+import { Pending } from "../api/pending.js";
 
 import classnames from "classnames";
 
-export default class Random extends Component {
+class Random extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -15,6 +18,12 @@ export default class Random extends Component {
 	handleClick() {
 		let waiting = this.state.waiting;
 		if (!waiting) {
+			let pendingPlayers = this.props.pendingPlayers;
+			let rival = null;
+			let currentWpm = Meteor.user().profile.maxWpm;
+			for (let p of pendingPlayers) {
+				let rivalWpm = Meteor.users.findOne({username: p.username}).profile.maxWpm;
+			}
 			Meteor.call("pending.insert");
 			this.setState({
 				waiting: !waiting
@@ -23,6 +32,10 @@ export default class Random extends Component {
 	}
 
 	render() {
+		let pendingPlayers = this.props.pendingPlayers;
+		if (!pendingPlayers) {
+			return null;
+		}
 		let waiting = this.state.waiting;
 		let title = waiting ?
 			"Waiting for a player with similar level..." :
@@ -55,3 +68,14 @@ export default class Random extends Component {
 		);
 	}
 }
+
+export default withTracker(() => {
+	if (Meteor.subscribe("pending").ready() && Meteor.subscribe("players").ready()) {
+		let pendingPlayers = Pending.find().fetch();
+		return {
+			pendingPlayers
+		};
+	} else {
+		return {};
+	}
+})(Random);

@@ -28,7 +28,7 @@ export default class Invitation extends Component {
 					className="btn btn-link"
 					type="button"
 					onClick={this.handleJoinFromInvitation}>
-					<strong>this</strong>
+					<strong> this </strong>
 				</button>
 				game.
 			</div>

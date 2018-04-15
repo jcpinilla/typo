@@ -135,8 +135,8 @@ if (Meteor.isServer) {
 			});
 
 		});
-		describe("zetWpm", () => {
-			it("should zet words per minute", () => {
+		describe("setWpm", () => {
+			it("should set words per minute", () => {
 
 				Meteor.call("games.setWpm", gameId,  80);
 			

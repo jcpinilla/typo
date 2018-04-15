@@ -44,7 +44,7 @@ class Random extends Component {
 			// 			waiting: !waiting
 			// 		});
 			// 	});
-			}
+			// }
 		} else {
 			this.setState({
 				waiting: !waiting

@@ -9,15 +9,15 @@ if (Meteor.isClient) {
 
 if (Meteor.isServer) {
 	Accounts.onCreateUser((options, user) => {
-		if (user.profile === undefined) {
-			user.profile = {};
+		user.profile = {maxWpm: 0};
+		if (user.services.twitter) {
+			user.username = user.services.twitter.screenName;
 		}
-		user.profile.maxWpm = 0;
 		return user;
 	});
 
 	Accounts.validateNewUser(user => {
-		let maxChars = 10;
+		let maxChars = 15;
 		if (user.username && user.username.length <= maxChars) {
 			return true;
 		} 

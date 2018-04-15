@@ -4,6 +4,7 @@ import { Redirect } from "react-router-dom";
 
 import Create from "./Create.js";
 import Join from "./Join.js";
+import Random from "./Random.js";
 
 export default class CreateJoin extends Component {
 	constructor(props) {
@@ -107,20 +108,27 @@ export default class CreateJoin extends Component {
 			return <Redirect to={`/${gameId}`} />;
 		}
 		return (
-			<div id="create-join" className="row">		
-				<Create
-					language={this.state.language}
-					privateGame={this.state.privateGame}
-					handleLanguageChange={this.handleLanguageChange}
-					handlePrivateGameChange={this.handlePrivateGameChange}
-					handleCreate={this.handleCreate} />
-				<Join
-					errorMessage={this.state.errorMessage}
-					dismissErrorMessage={this.dismissErrorMessage}
-					handleJoin={this.handleJoin}
-					gameIdJoin={this.state.gameIdJoin}
-					handleGameIdJoinChange={this.handleGameIdJoinChange}
-					handleJoinFromInvitation={this.handleJoinFromInvitation} />
+			<div>
+				<div className="text-center row">
+					<div className="col-sm-12">
+						<Random />
+					</div>
+				</div>
+				<div id="create-join" className="row">
+					<Create
+						language={this.state.language}
+						privateGame={this.state.privateGame}
+						handleLanguageChange={this.handleLanguageChange}
+						handlePrivateGameChange={this.handlePrivateGameChange}
+						handleCreate={this.handleCreate} />
+					<Join
+						errorMessage={this.state.errorMessage}
+						dismissErrorMessage={this.dismissErrorMessage}
+						handleJoin={this.handleJoin}
+						gameIdJoin={this.state.gameIdJoin}
+						handleGameIdJoinChange={this.handleGameIdJoinChange}
+						handleJoinFromInvitation={this.handleJoinFromInvitation} />
+				</div>
 			</div>
 		);
 	}

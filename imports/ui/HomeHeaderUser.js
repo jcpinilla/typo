@@ -9,9 +9,9 @@ class HomeHeaderUser extends Component {
 	render() {
 		let maxWpm = this.props.maxWpm;
 		let otherUsername = null;
-		if (Meteor.user() && Meteor.user().services && Meteor.user().services.twitter) {
-			otherUsername = "@" + Meteor.user().services.twitter.screenName;
-		}
+		// if (Meteor.user() && Meteor.user().services && Meteor.user().services.twitter) {
+		// 	otherUsername = "@" + Meteor.user().services.twitter.screenName;
+		// }
 		return (
 			<div>
 				<div className="row text-center">
@@ -28,7 +28,9 @@ class HomeHeaderUser extends Component {
 						}
 					</div>
 					<div className="col-sm-3">
-						<div id="twitter-login">{otherUsername}</div>
+						{
+							// <div id="twitter-login">{otherUsername}</div>
+						}
 						<AccountsUIWrapper />
 					</div>
 				</div>

@@ -7,10 +7,10 @@ import AccountsUIWrapper from "./AccountsUIWrapper.js";
 export default class GameHeader extends Component {
 	render() {
 		let gameId = this.props.match.params.gameId;
-		let otherUsername = null;
-		if (Meteor.user() && Meteor.user().services && Meteor.user().services.twitter) {
-			otherUsername = "@" + Meteor.user().services.twitter.screenName;
-		}
+		// let otherUsername = null;
+		// if (Meteor.user() && Meteor.user().services && Meteor.user().services.twitter) {
+		// 	otherUsername = "@" + Meteor.user().services.twitter.screenName;
+		// }
 		return (
 			<div>
 				<div className="row text-center">
@@ -23,7 +23,9 @@ export default class GameHeader extends Component {
 						Game ID: <span className="bigger-header-message">{gameId}</span>
 					</div>
 					<div className="col-sm-3">
-						<div id="twitter-login">{otherUsername}</div>
+						{
+							//<div id="twitter-login">{otherUsername}</div>
+						}
 						<AccountsUIWrapper />
 					</div>
 				</div>

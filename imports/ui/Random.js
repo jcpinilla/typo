@@ -70,6 +70,7 @@ class Random extends Component {
 	}
 
 	componentWillUnmount() {
+		//Me gusta que estén utilizando este método para desmontar componentes y evitar errores de estado.
 		if (this.state.waiting) {
 			Meteor.call("pending.stopWaiting");
 		}

@@ -4,7 +4,7 @@ import { Mongo } from "meteor/mongo";
 import generateWords from "./WordGenerator.js";
 
 export const Games = new Mongo.Collection("games");
-
+//Ya que manejan juegos privados, podrían realizar la publicación con seguridad desde este punto, en lugar de publicar todos los juegos.
 if (Meteor.isServer) {
 	Meteor.publish("games", function gamesPublication() {
 		return Games.find();

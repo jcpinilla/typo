@@ -6,7 +6,13 @@ cd typo
 meteor npm install
 meteor
 ```
-The app will be running at [http://localhost:3000](http://localhost:3000).
+The app will be running at [http://localhost:3000](http://localhost:3000). Finally, you can test the app by running
+
+```
+meteor test --driver-package cultofcoders:mocha --port 3100
+```
+The test results are displayed in [http://localhost:3100](http://localhost:3100).
+
 
 ## Authors
   - [Juan Camilo Pinilla](https://github.com/jcpinilla/)

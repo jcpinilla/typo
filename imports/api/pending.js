@@ -5,6 +5,7 @@ export const Pending = new Mongo.Collection("pending");
 
 if (Meteor.isServer) {
 	Meteor.publish("pending", function pendingPublication() {
+		//Podrían restringir las publicaciones para una mejor seguridad.
 		return Pending.find();
 	});
 }

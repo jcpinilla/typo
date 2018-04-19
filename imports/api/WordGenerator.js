@@ -25,11 +25,20 @@ export default function generateWords(language, numberOfWords) {
 	default:
 		array = english;
 	}
+
+	// a.echeverrir: some changes so that repeated words wont be a problem
 	let randomArray = [];
 	let arrayLength = array.length;
+	let previousWord = "";
+
 	for (let i = 0; i < numberOfWords; i++) {
 		let randomIndex = Math.floor(Math.random() * arrayLength);
-		randomArray.push(array[randomIndex]);
+		let word = array[randomIndex];
+		while(word == previousWord){
+			randomIndex = Math.floor(Math.random() * arrayLength);
+			word = array[randomIndex];
+		}
+		randomArray.push(word);
 	}
 	let randomText = randomArray.join(" ");
 	return randomText;

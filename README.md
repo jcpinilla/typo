@@ -6,7 +6,8 @@ cd typo
 meteor npm install
 meteor
 ```
-The app will be running at [http://localhost:3000](http://localhost:3000). Finally, you can test the app by running
+The app will be running at [http://localhost:3000](http://localhost:3000). 
+Finally, you can test the app by running
 
 ```
 meteor test --driver-package cultofcoders:mocha --port 3100
@@ -18,9 +19,14 @@ The test results are displayed in [http://localhost:3100](http://localhost:3100)
   - [Juan Camilo Pinilla](https://github.com/jcpinilla/)
   - [Juan Diego Chaves](https://github.com/jd-chaves)
 
+
+## Visit
+Currently deployed with heroku: <a href="https://typo-go.herokuapp.com/" target="_blank">**TYPO**</a>
+
 License
 ----
 MIT
 
 **Free Software, This project is licensed under the terms of the MIT license.**
 See [LICENSE](https://raw.githubusercontent.com/jcpinilla/typo/master/LICENSE) for more.
+
